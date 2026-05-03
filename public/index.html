@@ -27,10 +27,11 @@
           <p data-i18n="heroDesc">就活、授業、生活、恋愛、サークル、バイトまで。学生証アップロードで自動認証され、投稿できるコミュニティMVPです。</p>
         </div>
         <div class="features">
-          <div class="feature" data-i18n="feature1">✅ 会員登録・ログイン機能</div>
-          <div class="feature" data-i18n="feature2">✅ 投稿・いいね・コメント保存</div>
-          <div class="feature" data-i18n="feature3">✅ 学生証アップロード → 自動承認 → 管理者メール送信</div>
-          <div class="feature" data-i18n="feature4">✅ 管理者が後から認証取消可能</div>
+          <!-- Updated feature list: focus on user-facing features only. Admin capabilities are hidden from end users. -->
+          <div class="feature" data-i18n="feature1">✅ 会員登録・ログイン</div>
+          <div class="feature" data-i18n="feature2">✅ 投稿・いいね・コメント</div>
+          <div class="feature" data-i18n="feature3">✅ 学生証または教育機関メール認証</div>
+          <div class="feature" data-i18n="feature4">✅ 大学別掲示板と共通掲示板</div>
         </div>
       </div>
       <div class="card"><div class="card-body">
@@ -42,8 +43,7 @@
           <input id="loginEmail" type="email" data-i18n-placeholder="email" placeholder="メールアドレス">
           <input id="loginPassword" type="password" data-i18n-placeholder="password" placeholder="パスワード">
           <button class="btn full" onclick="login()" data-i18n="login">ログイン</button>
-          <button class="btn dark full" onclick="fillAdminUser()" data-i18n="fillAdmin">管理者で入力</button>
-          <p class="small muted">admin@campusroom.jp / admin1234</p>
+          <!-- Removed admin auto-fill button and credentials to keep admin login private -->
         </div>
         <div id="signupForm" class="stack hidden">
           <input id="signupName" data-i18n-placeholder="realName" placeholder="氏名">
@@ -54,6 +54,11 @@
           <input id="signupPassword" type="password" data-i18n-placeholder="password6" placeholder="パスワード 6文字以上">
           <button class="btn full" onclick="signup()" data-i18n="signup">新規登録</button>
           <p class="small muted" data-i18n="signupNote">登録後、学生証画像をアップロードすると自動で認証されます。</p>
+          <!-- Terms of Service and Privacy links displayed below the signup form -->
+          <div class="small muted" style="margin-top:16px;text-align:center;">
+            <a href="#" onclick="showTerms()" style="color:#818cf8;text-decoration:underline;">利用規約</a> ・
+            <a href="#" onclick="showPrivacy()" style="color:#818cf8;text-decoration:underline;">プライバシーポリシー</a>
+          </div>
         </div>
       </div></div>
     </section>

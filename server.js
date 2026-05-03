@@ -284,15 +284,24 @@ app.post("/api/signup", async (req, res) => {
   const { name, nickname, university, faculty, email, password } = req.body;
   if (!name || !nickname || !university || !faculty || !email || !password) return res.status(400).json({ error: "MISSING_FIELDS" });
   if (String(password).length < 6) return res.status(400).json({ error: "PASSWORD_TOO_SHORT" });
+  // Validate nickname: allow 2 to 20 characters consisting of Korean, Japanese, or Latin letters and numbers
+  const nicknamePattern = /^[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}\p{Script=Hangul}A-Za-z0-9]{2,20}$/u;
+  if (!nicknamePattern.test(String(nickname))) return res.status(400).json({ error: "INVALID_NICKNAME" });
   const normalizedEmail = String(email).trim().toLowerCase();
   const exists = await one("SELECT id FROM users WHERE email = $1", [normalizedEmail]);
   if (exists) return res.status(409).json({ error: "EMAIL_EXISTS" });
 
   const id = uuidv4();
+  // Determine whether the email belongs to an educational institution. Domains ending with .ac.jp, .ac.kr, .edu, or containing .ac. are considered educational.
+  const emailDomain = normalizedEmail.split("@").pop() || "";
+  const isEducationalEmail = /\.ac\.|\.ac\.jp$|\.ac\.kr$|\.edu$/.test(emailDomain);
+  // If email is educational, auto-verify the user; otherwise keep unverified until student ID is uploaded.
+  const isVerified = isEducationalEmail;
+  const verificationStatus = isEducationalEmail ? 'approved' : 'none';
   await query(`
     INSERT INTO users
     (id,name,nickname,university,faculty,email,password_hash,role,verified,verification_status,created_at)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,'user',FALSE,'none',$8)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,'user',${isVerified ? 'TRUE' : 'FALSE'},'${verificationStatus}',$8)
   `, [id, name, nickname, university, faculty, normalizedEmail, bcrypt.hashSync(password, 10), Date.now()]);
 
   const user = await one("SELECT * FROM users WHERE id = $1", [id]);
@@ -359,6 +368,17 @@ app.get("/api/posts", authOptional, async (req, res) => {
     LEFT JOIN comments c ON c.post_id = p.id
     WHERE ($2 = '全部' OR p.board = $2)
       AND ($3 = '' OR LOWER(p.title || ' ' || p.body || ' ' || p.board || ' ' || p.display_university) LIKE '%' || $3 || '%')
+      -- For university-specific board, limit posts to same university or anonymous. If not logged in, show none.
+      AND (
+        $2 <> '大学別'
+        OR (
+          COALESCE($1::text, '') <> '' AND (
+            p.display_university = '匿名'
+            OR p.display_university = (SELECT university FROM users WHERE id = $1)
+            OR u.university = (SELECT university FROM users WHERE id = $1)
+          )
+        )
+      )
     GROUP BY p.id, u.nickname
     ORDER BY
       CASE WHEN $4 = 'popular' THEN COUNT(DISTINCT l.user_id) END DESC,
@@ -407,14 +427,35 @@ app.post("/api/posts/:id/like", requireAuth, async (req, res) => {
 });
 
 app.get("/api/posts/:id/comments", authOptional, async (req, res) => {
-  const comments = await query("SELECT id, body, created_at FROM comments WHERE post_id = $1 ORDER BY created_at ASC", [req.params.id]);
-  res.json({ comments: comments.map(c => ({ id: c.id, body: c.body, createdAt: Number(c.created_at), nickname: "匿名" })) });
+  const comments = await query("SELECT id, user_id, body, created_at FROM comments WHERE post_id = $1 ORDER BY created_at ASC", [req.params.id]);
+  // Assign a unique anonymous number per commenter within this post. The first commenter becomes 匿名1, the next new commenter 匿名2, and so on.
+  const anonMap = {};
+  let counter = 0;
+  const mapped = comments.map(c => {
+    if (!anonMap[c.user_id]) {
+      counter += 1;
+      anonMap[c.user_id] = counter;
+    }
+    const canDelete = req.user && (req.user.id === c.user_id || req.user.role === 'admin');
+    return { id: c.id, body: c.body, createdAt: Number(c.created_at), nickname: `匿名${anonMap[c.user_id]}`, canDelete };
+  });
+  res.json({ comments: mapped });
 });
 
 app.post("/api/posts/:id/comments", requireAuth, requireVerified, async (req, res) => {
   const body = String(req.body.body || "").trim();
   if (!body) return res.status(400).json({ error: "MISSING_BODY" });
   await query("INSERT INTO comments (id,user_id,post_id,body,created_at) VALUES ($1,$2,$3,$4,$5)", [uuidv4(), req.user.id, req.params.id, body, Date.now()]);
+  res.json({ ok: true });
+});
+
+// Delete a comment. Only the author of the comment or an admin can delete.
+app.delete("/api/posts/:postId/comments/:commentId", requireAuth, async (req, res) => {
+  const { postId, commentId } = req.params;
+  const comment = await one("SELECT user_id FROM comments WHERE id = $1 AND post_id = $2", [commentId, postId]);
+  if (!comment) return res.status(404).json({ error: "NOT_FOUND" });
+  if (comment.user_id !== req.user.id && req.user.role !== 'admin') return res.status(403).json({ error: "FORBIDDEN" });
+  await query("DELETE FROM comments WHERE id = $1", [commentId]);
   res.json({ ok: true });
 });
 
