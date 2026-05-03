@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Room JP</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;background:#09090b;color:#f4f4f5}button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}header{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.1);background:rgba(9,9,11,.88);backdrop-filter:blur(18px)}.header-inner{max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:18px;display:grid;place-items:center;background:#fff;color:#09090b;font-weight:900}.brand h1{font-size:20px;margin:0;letter-spacing:-.03em}.brand p{margin:2px 0 0;color:#a1a1aa;font-size:12px}.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800;background:#27272a;color:#d4d4d8;white-space:nowrap}.badge.ok{background:#059669;color:#fff}.badge.wait{background:#a16207;color:#fff}.badge.admin{background:#4f46e5;color:#fff}main{max-width:1180px;margin:0 auto;padding:22px 18px 48px}.layout{display:grid;grid-template-columns:280px 1fr;gap:20px}.card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.22)}.card-body{padding:20px}.stack{display:grid;gap:14px}.muted{color:#a1a1aa}.small{font-size:13px;line-height:1.65}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.section-title h2{font-size:18px;margin:0}.btn{border:0;border-radius:16px;background:#fff;color:#09090b;padding:12px 16px;font-weight:900;transition:.15s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}.btn:hover{background:#e4e4e7}.btn.dark{background:#18181b;color:#f4f4f5;border:1px solid rgba(255,255,255,.1)}.btn.dark:hover{background:#27272a}.btn.danger{background:#dc2626;color:#fff}.btn.green{background:#059669;color:#fff}.btn.full{width:100%}.btn:disabled{opacity:.45;cursor:not-allowed}input,textarea,select{width:100%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#f4f4f5;border-radius:16px;padding:12px 14px;outline:none}textarea{resize:vertical;min-height:120px;line-height:1.7}input::placeholder,textarea::placeholder{color:#71717a}select option{background:#18181b;color:#fff}.auth-wrap{max-width:950px;margin:26px auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}.hero{padding:30px;min-height:500px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-100px;bottom:-120px;background:radial-gradient(circle,rgba(255,255,255,.2),transparent 65%)}.hero h2{font-size:clamp(32px,5vw,54px);letter-spacing:-.06em;line-height:1.04;margin:0 0 16px}.hero p{color:#d4d4d8;line-height:1.8;position:relative;z-index:2}.features{display:grid;gap:10px;position:relative;z-index:2}.feature{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:12px;border-radius:18px;color:#e4e4e7;font-size:14px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:5px;background:rgba(255,255,255,.06);border-radius:18px;margin-bottom:16px}.tab{border:0;border-radius:14px;padding:11px;color:#a1a1aa;background:transparent;font-weight:900}.tab.active{background:#fff;color:#09090b}.board-btn{width:100%;text-align:left;border:0;border-radius:16px;padding:12px 14px;background:#18181b;color:#d4d4d8;font-weight:800;margin-bottom:8px}.board-btn.active{background:#fff;color:#09090b}.top-tools{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:16px}.post{margin-bottom:14px;transition:.15s ease}.post:hover{background:rgba(255,255,255,.065)}.post h3{font-size:20px;line-height:1.45;margin:12px 0 8px}.post p{line-height:1.75;color:#d4d4d8;margin:0}.meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:#71717a;font-size:12px}.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.pill-btn{border:0;border-radius:999px;background:#18181b;color:#d4d4d8;padding:9px 12px;font-weight:800}.comment-box{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:none}.comment{background:rgba(255,255,255,.045);border-radius:16px;padding:11px 12px;margin:8px 0;color:#e4e4e7;line-height:1.6}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.alert{border:1px solid rgba(250,204,21,.25);background:rgba(250,204,21,.1);color:#fef3c7;border-radius:18px;padding:14px;line-height:1.7;font-size:14px}.admin-list{display:grid;gap:10px}.admin-item{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:18px;padding:13px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#fff;color:#09090b;padding:12px 16px;border-radius:999px;font-weight:900;box-shadow:0 16px 50px rgba(0,0,0,.35);z-index:50;display:none}.toast.show{display:block}.lang-select{width:auto;padding:8px 10px;border-radius:999px;font-size:13px}@media(max-width:900px){.layout{grid-template-columns:1fr}.auth-wrap{grid-template-columns:1fr}.hero{min-height:auto;gap:30px}.top-tools{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo">CR</div>
+        <div><h1>Campus Room JP</h1><p data-i18n="tagline">日本の大学生限定・匿名コミュニティ</p></div>
+      </div>
+      <div class="header-actions" id="headerActions"></div>
+    </div>
+  </header>
+  <main>
+    <section id="authPage" class="auth-wrap">
+      <div class="card hero">
+        <div>
+          <h2 data-i18n="heroTitle">大学生だけの、<br>匿名キャンパス掲示板。</h2>
+          <p data-i18n="heroDesc">就活、授業、生活、恋愛、サークル、バイトまで。学生証アップロードで自動認証され、投稿できるコミュニティMVPです。</p>
+        </div>
+        <div class="features">
+          <div class="feature" data-i18n="feature1">✅ 会員登録・ログイン機能</div>
+          <div class="feature" data-i18n="feature2">✅ 投稿・いいね・コメント保存</div>
+          <div class="feature" data-i18n="feature3">✅ 学生証アップロード → 自動承認 → 管理者メール送信</div>
+          <div class="feature" data-i18n="feature4">✅ 管理者が後から認証取消可能</div>
+        </div>
+      </div>
+      <div class="card"><div class="card-body">
+        <div class="tabs">
+          <button class="tab active" id="loginTab" onclick="switchAuth('login')" data-i18n="login">ログイン</button>
+          <button class="tab" id="signupTab" onclick="switchAuth('signup')" data-i18n="signup">新規登録</button>
+        </div>
+        <div id="loginForm" class="stack">
+          <input id="loginEmail" type="email" data-i18n-placeholder="email" placeholder="メールアドレス">
+          <input id="loginPassword" type="password" data-i18n-placeholder="password" placeholder="パスワード">
+          <button class="btn full" onclick="login()" data-i18n="login">ログイン</button>
+          <button class="btn dark full" onclick="fillAdminUser()" data-i18n="fillAdmin">管理者で入力</button>
+          <p class="small muted">admin@campusroom.jp / admin1234</p>
+        </div>
+        <div id="signupForm" class="stack hidden">
+          <input id="signupName" data-i18n-placeholder="realName" placeholder="氏名">
+          <input id="signupNickname" data-i18n-placeholder="nickname" placeholder="ニックネーム">
+          <input id="signupUniversity" data-i18n-placeholder="university" placeholder="大学名">
+          <input id="signupFaculty" data-i18n-placeholder="faculty" placeholder="学部">
+          <input id="signupEmail" type="email" data-i18n-placeholder="email" placeholder="メールアドレス">
+          <input id="signupPassword" type="password" data-i18n-placeholder="password6" placeholder="パスワード 6文字以上">
+          <button class="btn full" onclick="signup()" data-i18n="signup">新規登録</button>
+          <p class="small muted" data-i18n="signupNote">登録後、学生証画像をアップロードすると自動で認証されます。</p>
+        </div>
+      </div></div>
+    </section>
+
+    <section id="mainPage" class="layout hidden">
+      <aside class="stack">
+        <div class="card"><div class="card-body">
+          <div class="section-title"><h2 data-i18n="studentVerification">学生証認証</h2></div>
+          <p class="small muted" id="verifyText"></p>
+          <div style="height:12px"></div>
+          <input id="studentIdFile" type="file" accept="image/*,.pdf">
+          <div style="height:8px"></div>
+          <button class="btn full" onclick="uploadStudentId()" data-i18n="uploadAndVerify">学生証をアップロードして認証</button>
+          <p class="small muted" style="margin-top:12px" data-i18n="uploadNote">アップロード後すぐ認証済みになります。画像は管理者メールに送信されます。</p>
+        </div></div>
+
+        <div class="card"><div class="card-body">
+          <div class="section-title"><h2 data-i18n="boards">掲示板</h2></div>
+          <div id="boards"></div>
+        </div></div>
+
+        <div class="card hidden" id="adminPanel"><div class="card-body">
+          <div class="section-title"><h2 data-i18n="admin">管理者</h2><span class="badge admin">ADMIN</span></div>
+          <div class="admin-list" id="adminUsers"></div>
+        </div></div>
+      </aside>
+
+      <section>
+        <div class="top-tools">
+          <input id="searchInput" data-i18n-placeholder="searchPosts" placeholder="投稿を検索" oninput="renderPosts()">
+          <button class="btn dark" onclick="toggleSort()" id="sortBtn">新着順</button>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;"><div class="card-body">
+          <div class="section-title"><h2 data-i18n="writePost">投稿する</h2><span class="badge" id="postPermissionBadge"></span></div>
+          <div id="writeAlert" class="alert hidden" data-i18n="needVerification">投稿には学生証認証が必要です。</div>
+          <div class="stack" id="writeForm">
+            <div class="grid2"><select id="postBoard"></select><input id="postUniversity" data-i18n-placeholder="displayUniversity" placeholder="表示大学名 / 匿名"></div>
+            <input id="postTitle" data-i18n-placeholder="title" placeholder="タイトル">
+            <textarea id="postBody" data-i18n-placeholder="body" placeholder="本文"></textarea>
+            <button class="btn" onclick="createPost()" data-i18n="post">投稿する</button>
+          </div>
+        </div></div>
+        <div id="posts"></div>
+      </section>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>
